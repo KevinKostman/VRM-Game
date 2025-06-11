@@ -7,7 +7,7 @@ public class UpgradeButton : MonoBehaviour
     private UpgradeHub manager;
 
     [SerializeField] private TMP_Text buttonText;
-
+    
     public void AssignUpgrade(UpgradeHub.Upgrade upgrade, UpgradeHub mgr)
     {
         assignedUpgrade = upgrade;

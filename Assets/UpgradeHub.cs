@@ -58,6 +58,7 @@ public class UpgradeHub : MonoBehaviour
         {
             case UpgradeType.Damage:
                 playerStatus.dmg += upgrade.value;
+                Debug.Log($"Damage increased by {upgrade.value}. New damage: {playerStatus.dmg}");
                 break;
 
             case UpgradeType.ShootToCollect:

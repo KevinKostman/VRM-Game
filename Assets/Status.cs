@@ -12,7 +12,7 @@ public class Status : MonoBehaviour
     private GameObject player;
     private Status playerstatus;
     public bool ShtUp = false; // Shoot to collect upgrade
-    public float dmg = 10f; // Damage dealt by the enemy
+    public float dmg; // Damage dealt by the enemy
     public GameObject canvas;
     private int prevlvl=0;
     void Awake()
@@ -23,6 +23,7 @@ public class Status : MonoBehaviour
         exp = 0f;
         currHealth = maxHealth;
         lvl = 0;
+        dmg = 10f; // Default damage for enemies
         if (this.tag != "Enemy")
         {
             Debug.Log("Status Start");
@@ -32,6 +33,7 @@ public class Status : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(dmg);
         if (this.tag != "Enemy")
         {
             Debug.Log("Status Update");
@@ -43,7 +45,7 @@ public class Status : MonoBehaviour
                 Cursor.lockState = CursorLockMode.None; // Unlock the cursor
                 Cursor.visible = true; // Make the cursor visible
             }
-            
+
         }
         //gameObject.CompareTag("Enemy") && 
         if (currHealth <= 0)
@@ -54,11 +56,11 @@ public class Status : MonoBehaviour
 
         }
     }
-    private void OnTriggerEnter(Collider other)
+private void OnTriggerEnter(Collider other) // CZEMU TO KURWA NIE UPDATEUJE ZMIENNEJ WARTOSCI DMG?
     {
         if (other.tag == "Bullet" && this.tag == "Enemy")
         {
-            Debug.Log("He?");
+            Debug.Log($"Damage taken : {dmg}");
             currHealth -= dmg;
         }
     }
