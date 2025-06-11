@@ -36,7 +36,6 @@ public class ExpSld : MonoBehaviour
             status.exp = rest;
             
             maxExp = MathF.Round(maxExp * 1.25f);
-
             status.lvl += 1;
             
         }

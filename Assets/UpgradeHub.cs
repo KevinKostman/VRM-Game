@@ -49,7 +49,7 @@ public class UpgradeHub : MonoBehaviour
 
         button1.AssignUpgrade(availableUpgrades[0], this);
         button2.AssignUpgrade(availableUpgrades[1], this);
-
+        
     }
 
     public void ApplyUpgrade(Upgrade upgrade)
@@ -68,6 +68,10 @@ public class UpgradeHub : MonoBehaviour
                 }
                 break;
         }
+        playerStatus.canvas.SetActive(false);
+        Time.timeScale = 1f;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
     }
 

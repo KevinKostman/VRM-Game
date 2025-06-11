@@ -19,8 +19,10 @@ public class UpgradeButton : MonoBehaviour
 
     public void OnClick()
     {
+        Debug.Log($"Button clicked for upgrade");
         if (assignedUpgrade != null && manager != null)
         {
+            Debug.Log($"Applying upgrade: {assignedUpgrade.name}");
             manager.ApplyUpgrade(assignedUpgrade);
         }
     }

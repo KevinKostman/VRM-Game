@@ -13,7 +13,8 @@ public class Status : MonoBehaviour
     private Status playerstatus;
     public bool ShtUp = false; // Shoot to collect upgrade
     public float dmg = 10f; // Damage dealt by the enemy
-    // Start is called before the first frame update
+    public GameObject canvas;
+    private int prevlvl=0;
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
@@ -22,18 +23,35 @@ public class Status : MonoBehaviour
         exp = 0f;
         currHealth = maxHealth;
         lvl = 0;
+        if (this.tag != "Enemy")
+        {
+            Debug.Log("Status Start");
+            canvas.SetActive(false);
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (this.tag != "Enemy")
+        {
+            Debug.Log("Status Update");
+            if (prevlvl != lvl) // B)
+            {
+                canvas.SetActive(true);
+                prevlvl = lvl;
+                Time.timeScale = 0f; // Pause the game
+                Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+                Cursor.visible = true; // Make the cursor visible
+            }
+            
+        }
         //gameObject.CompareTag("Enemy") && 
         if (currHealth <= 0)
         {
             playerstatus.exp += 50f;
             GetComponent<LootBag>().InstantiateLoot(transform.position);
             Destroy(gameObject);
-            
+
         }
     }
     private void OnTriggerEnter(Collider other)
