@@ -1,12 +1,75 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UpgradeHub : MonoBehaviour
 {
-    [SerializeField]
-    private Button button_1;
-    private Button button_2;
+    public GameObject playerObj;
+    private Status playerStatus;
+
+
+    public enum UpgradeType
+    {
+        FireRate,
+        Damage,
+        ShootToCollect // Logic upgrade
+    }
+
+    [System.Serializable]
+    public class Upgrade
+    {
+        public string name;
+        public string description;
+        public float value; // Optional
+        public UpgradeType type;
+    }
+
+    public List<Upgrade> availableUpgrades = new List<Upgrade>();
+
+    [SerializeField] private UpgradeButton button1;
+    [SerializeField] private UpgradeButton button2;
+
+    private void Start()
+    {
+        playerStatus = playerObj.GetComponent<Status>();
+        availableUpgrades.Add(new Upgrade
+        {
+            name = "Shoot to Collect",
+            description = "Loot can be picked up by shooting it",
+            type = UpgradeType.ShootToCollect
+        });
+
+        availableUpgrades.Add(new Upgrade
+        {
+            name = "Gain Damage",
+            description = "Increase damage by 5",
+            value = 5,
+            type = UpgradeType.Damage
+        });
+
+        button1.AssignUpgrade(availableUpgrades[0], this);
+        button2.AssignUpgrade(availableUpgrades[1], this);
+
+    }
+
+    public void ApplyUpgrade(Upgrade upgrade)
+    {
+        switch (upgrade.type)
+        {
+            case UpgradeType.Damage:
+                playerStatus.dmg += upgrade.value;
+                break;
+
+            case UpgradeType.ShootToCollect:
+                if (playerStatus != null)
+                {
+                    playerStatus.ShtUp = true;
+                    Debug.Log("Shoot-to-collect enabled!");
+                }
+                break;
+        }
+
+    }
+
 
 }

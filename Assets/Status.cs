@@ -11,9 +11,11 @@ public class Status : MonoBehaviour
     public int lvl;
     private GameObject player;
     private Status playerstatus;
+    public bool ShtUp = false; // Shoot to collect upgrade
+    public float dmg = 10f; // Damage dealt by the enemy
     // Start is called before the first frame update
     void Awake()
-    {   
+    {
         player = GameObject.FindWithTag("Player");
         playerstatus = player.GetComponent<Status>();
         maxHealth = 100f;
@@ -39,7 +41,7 @@ public class Status : MonoBehaviour
         if (other.tag == "Bullet" && this.tag == "Enemy")
         {
             Debug.Log("He?");
-            currHealth -= 10f;
+            currHealth -= dmg;
         }
     }
 }

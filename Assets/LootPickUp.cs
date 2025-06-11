@@ -14,7 +14,8 @@ public class LootPickUp : MonoBehaviour
     void Awake()
     {
         player = playerObj.GetComponent<Status>();
-        ShtUp = false;
+        ShtUp = player.ShtUp;
+        
     }
 
     // Update is called once per frame
