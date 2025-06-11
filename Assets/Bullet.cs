@@ -6,9 +6,10 @@ public class PlayerBullet : MonoBehaviour
 {
     private IEnumerator destroyProjectile;
     private float time = 5f;
-    private Status playerstatus;
+    
 
     private void Start() {
+        
         destroyProjectile = _destroyProjectile(time);
         StartCoroutine(destroyProjectile);
         
