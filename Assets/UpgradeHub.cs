@@ -68,7 +68,7 @@ public class UpgradeHub : MonoBehaviour
                 if (playerStatus != null)
                 {
                     playerStatus.ShtUp = true;
-                    Debug.Log("Shoot-to-collect enabled!");
+                    Debug.Log("Shoot-to-collect");
                 }
                 break;
         }

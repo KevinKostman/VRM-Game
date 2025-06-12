@@ -6,68 +6,66 @@ public class LootPickUp : MonoBehaviour
 {
     public GameObject playerObj;
     private Status player;
-    private float exp;
-    private float health;
+    public float hpup = 0f;
+    public float expup;
     private string type;
     public bool ShtUp;
     // Start is called before the first frame update
     void Awake()
     {
         player = playerObj.GetComponent<Status>();
-        
-        
+
+
     }
 
     // Update is called once per frame
     void Update()
     {
         ShtUp = player.ShtUp;
-        
+
+
     }
 
-    void OnTriggerEnter(Collider other){
-        if(ShtUp != true)
+    void OnTriggerEnter(Collider other)
+    {
+        if (ShtUp != true)
         {
-            if(other.tag == "Player")
+            if (other.tag == "Player")
             {
                 Collect();
             }
-            
-        }else
+
+        }
+        else
         {
             Debug.Log("Cringe");
-            if(other.tag == "Player" || other.tag == "Bullet") 
+            if (other.tag == "Player" || other.tag == "Bullet")
             {
                 Collect();
             }
-            
+
         }
     }
     void Collect()
     {
-        Debug.Log("HAI");
-        health = player.currHealth;
-        exp = player.exp;
-        if(gameObject.tag == "HP"){
-            Debug.Log("HAI HP");
-            if (health != player.maxHealth)
-            {
-                if(health + 20 > player.maxHealth)
-                {
-                    health += player.maxHealth - health; 
-                }else{
-                health += 20;
-                }
-            }else
-            {
-                Debug.Log("No overheal");
-                
-            }
-        }else
+        if (gameObject.tag == "HP")
         {
-            exp += 20;
+            gameObject.tag = "PickedUp";
+            hpup = 20f;
+            expup = 0f;
         }
-        Destroy(gameObject);
-
+        else
+        {
+            expup = 20f;
+            hpup = 0f;
+        }
+        StartCoroutine(DelayedDestroy());
     }
+
+    IEnumerator DelayedDestroy()
+    {
+        yield return null; // wait 1 frame
+        Destroy(gameObject);
+    }
+
 }

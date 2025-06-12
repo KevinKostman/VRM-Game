@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Threading;
 public class Status : MonoBehaviour
-{   
+{
     [SerializeField]
     public float currHealth;
     public float maxHealth;
@@ -14,9 +14,11 @@ public class Status : MonoBehaviour
     public bool ShtUp = false; // Shoot to collect upgrade
     public float dmg; // Damage dealt by the enemy
     public GameObject canvas;
-    private int prevlvl=0;
+    private int prevlvl = 0;
     private GameObject upgradeHub;
     private UpgradeHub upgradeHubScript;
+    private LootPickUp lootPickUp;
+    private GameObject loot;
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
@@ -28,28 +30,27 @@ public class Status : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("UpgradeHub not found in the scene.");
+            UnityEngine.Debug.LogWarning("UpgradeHub not found in the scene.");
         }
 
-        
+
         maxHealth = 100f;
         exp = 0f;
         currHealth = maxHealth;
         lvl = 0;
         dmg = 10f; // Default damage for enemies
-        Debug.Log($"Worky cause : {player.GetComponent<Status>().currHealth}");
         if (this.tag != "Enemy")
         {
-            Debug.Log("Status Start");
             canvas.SetActive(false);
         }
     }
 
     void Update()
     {
+        
         if (this.tag == "Enemy")
         {
-            
+
             if (currHealth <= 0)
             {
                 playerstatus.exp += 50f;
@@ -60,7 +61,14 @@ public class Status : MonoBehaviour
         }
         if (this.tag != "Enemy")
         {
-            Debug.Log("Status Update");
+            if (GameObject.FindWithTag("PickedUp") != null)
+            {
+                Debug.Log("Loot found");
+                loot = GameObject.FindWithTag("PickedUp");
+                lootPickUp = loot.GetComponent<LootPickUp>();
+                currHealth += lootPickUp.hpup;
+            }
+
             if (prevlvl != lvl) // B)
             {
                 canvas.SetActive(true);
@@ -68,20 +76,34 @@ public class Status : MonoBehaviour
                 Time.timeScale = 0f; // Pause the game
                 Cursor.lockState = CursorLockMode.None; // Unlock the cursor
                 Cursor.visible = true; // Make the cursor visible
+
             }
 
         }
         //gameObject.CompareTag("Enemy") && 
-        
+
     }
-     private void OnTriggerEnter(Collider other) // CZEMU TO KURWA NIE UPDATEUJE ZMIENNEJ WARTOSCI DMG?
+    private void OnTriggerEnter(Collider other) 
     {
         if (other.tag == "Bullet" && this.tag == "Enemy")
         {
 
             // currHealth -= dmg;
             currHealth -= upgradeHubScript.dmg;
-            Debug.Log($"Damage taken : {upgradeHubScript.dmg}");
+        }
+    }
+    private float damageCooldown = 1f; // seconds between damage ticks
+    private float lastDamageTime = 0f;
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Enemy") && CompareTag("Player"))
+        {
+            if (Time.time - lastDamageTime >= damageCooldown)
+            {
+                currHealth -= 10;
+                lastDamageTime = Time.time;
+            }
         }
     }
 }
