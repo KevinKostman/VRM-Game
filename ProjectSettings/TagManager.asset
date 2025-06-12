@@ -9,6 +9,7 @@ TagManager:
   - Enemy stat
   - HP
   - EXP
+  - Upgrades
   layers:
   - Default
   - TransparentFX

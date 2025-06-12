@@ -15,15 +15,29 @@ public class Status : MonoBehaviour
     public float dmg; // Damage dealt by the enemy
     public GameObject canvas;
     private int prevlvl=0;
+    private GameObject upgradeHub;
+    private UpgradeHub upgradeHubScript;
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
         playerstatus = player.GetComponent<Status>();
+        upgradeHub = GameObject.FindWithTag("Upgrades");
+        if (upgradeHub != null)
+        {
+            upgradeHubScript = upgradeHub.GetComponent<UpgradeHub>();
+        }
+        else
+        {
+            Debug.LogWarning("UpgradeHub not found in the scene.");
+        }
+
+        
         maxHealth = 100f;
         exp = 0f;
         currHealth = maxHealth;
         lvl = 0;
         dmg = 10f; // Default damage for enemies
+        Debug.Log($"Worky cause : {player.GetComponent<Status>().currHealth}");
         if (this.tag != "Enemy")
         {
             Debug.Log("Status Start");
@@ -33,7 +47,17 @@ public class Status : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(dmg);
+        if (this.tag == "Enemy")
+        {
+            
+            if (currHealth <= 0)
+            {
+                playerstatus.exp += 50f;
+                GetComponent<LootBag>().InstantiateLoot(transform.position);
+                Destroy(gameObject);
+            }
+
+        }
         if (this.tag != "Enemy")
         {
             Debug.Log("Status Update");
@@ -48,20 +72,16 @@ public class Status : MonoBehaviour
 
         }
         //gameObject.CompareTag("Enemy") && 
-        if (currHealth <= 0)
-        {
-            playerstatus.exp += 50f;
-            GetComponent<LootBag>().InstantiateLoot(transform.position);
-            Destroy(gameObject);
-
-        }
+        
     }
-private void OnTriggerEnter(Collider other) // CZEMU TO KURWA NIE UPDATEUJE ZMIENNEJ WARTOSCI DMG?
+     private void OnTriggerEnter(Collider other) // CZEMU TO KURWA NIE UPDATEUJE ZMIENNEJ WARTOSCI DMG?
     {
         if (other.tag == "Bullet" && this.tag == "Enemy")
         {
-            Debug.Log($"Damage taken : {dmg}");
-            currHealth -= dmg;
+
+            // currHealth -= dmg;
+            currHealth -= upgradeHubScript.dmg;
+            Debug.Log($"Damage taken : {upgradeHubScript.dmg}");
         }
     }
 }

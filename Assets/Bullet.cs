@@ -6,18 +6,19 @@ public class PlayerBullet : MonoBehaviour
 {
     private IEnumerator destroyProjectile;
     private float time = 5f;
+    public float health;
     
 
-    private void Start() {
-        
+    private void Start()
+    {
         destroyProjectile = _destroyProjectile(time);
         StartCoroutine(destroyProjectile);
-        
+
     }
     
     void OnTriggerEnter(Collider other){
         if(other.CompareTag("Enemy")){
-            
+            //other.SetComponent<Status>().currHealth = health;
             Destroy(gameObject);
         }
     }

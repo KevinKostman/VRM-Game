@@ -6,6 +6,7 @@ public class UpgradeHub : MonoBehaviour
 {
     public GameObject playerObj;
     private Status playerStatus;
+    public float dmg;
 
 
     public enum UpgradeType
@@ -31,6 +32,8 @@ public class UpgradeHub : MonoBehaviour
 
     private void Start()
     {
+        dmg = 10f;
+        
         playerStatus = playerObj.GetComponent<Status>();
         availableUpgrades.Add(new Upgrade
         {
@@ -57,8 +60,8 @@ public class UpgradeHub : MonoBehaviour
         switch (upgrade.type)
         {
             case UpgradeType.Damage:
-                playerStatus.dmg += upgrade.value;
-                Debug.Log($"Damage increased by {upgrade.value}. New damage: {playerStatus.dmg}");
+                dmg += upgrade.value;
+                Debug.Log($"Damage increased by {upgrade.value}. New damage: {dmg}");
                 break;
 
             case UpgradeType.ShootToCollect:
