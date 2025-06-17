@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class HighscoreTable : MonoBehaviour
 {
@@ -33,6 +34,7 @@ public class HighscoreTable : MonoBehaviour
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
         highscoreEntryList = highscores.highscoreEntryList;
+        highscoreEntryList = highscoreEntryList.Take(8).ToList(); 
 
         
         for (int i = 0; i < highscoreEntryList.Count; i++)

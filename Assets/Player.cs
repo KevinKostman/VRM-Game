@@ -29,6 +29,8 @@ public class Player : MonoBehaviour
     private float raycastDistance;
     void Start()
     {
+        
+        Time.timeScale = 1f;
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
         cameraTransform = Camera.main.transform;
