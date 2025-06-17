@@ -27,7 +27,6 @@ public class Player : MonoBehaviour
     private float groundCheckDelay = 0.3f;
     private float playerHeight;
     private float raycastDistance;
-
     void Start()
     {
         rb = GetComponent<Rigidbody>();

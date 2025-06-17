@@ -10,6 +10,8 @@ TagManager:
   - HP
   - EXP
   - Upgrades
+  - Loot
+  - PickedUp
   layers:
   - Default
   - TransparentFX
