@@ -72,7 +72,7 @@ public class UpgradeHub : MonoBehaviour
                 }
                 break;
         }
-        playerStatus.canvas.SetActive(false);
+        playerStatus.canvasLVL.SetActive(false);
         Time.timeScale = 1f;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

@@ -13,17 +13,20 @@ public class Status : MonoBehaviour
     private Status playerstatus;
     public bool ShtUp = false; // Shoot to collect upgrade
     public float dmg; // Damage dealt by the enemy
-    public GameObject canvas;
+    public GameObject canvasLVL;
     private int prevlvl = 0;
     private GameObject upgradeHub;
     private UpgradeHub upgradeHubScript;
     private LootPickUp lootPickUp;
     private GameObject loot;
+    public float score;
+    public GameObject canvasDyntka;
     void Awake()
     {
         player = GameObject.FindWithTag("Player");
         playerstatus = player.GetComponent<Status>();
         upgradeHub = GameObject.FindWithTag("Upgrades");
+
         if (upgradeHub != null)
         {
             upgradeHubScript = upgradeHub.GetComponent<UpgradeHub>();
@@ -39,9 +42,11 @@ public class Status : MonoBehaviour
         currHealth = maxHealth;
         lvl = 0;
         dmg = 10f; // Default damage for enemies
+        score = 0f;
         if (this.tag != "Enemy")
         {
-            canvas.SetActive(false);
+            canvasLVL.SetActive(false);
+            canvasDyntka.SetActive(false);
         }
     }
 
@@ -54,6 +59,7 @@ public class Status : MonoBehaviour
             if (currHealth <= 0)
             {
                 playerstatus.exp += 50f;
+                playerstatus.score += 100f;
                 GetComponent<LootBag>().InstantiateLoot(transform.position);
                 Destroy(gameObject);
             }
@@ -71,12 +77,19 @@ public class Status : MonoBehaviour
 
             if (prevlvl != lvl) // B)
             {
-                canvas.SetActive(true);
+                canvasLVL.SetActive(true);
                 prevlvl = lvl;
                 Time.timeScale = 0f; // Pause the game
                 Cursor.lockState = CursorLockMode.None; // Unlock the cursor
                 Cursor.visible = true; // Make the cursor visible
 
+            }
+            if (currHealth <= 0)
+            {
+                canvasDyntka.SetActive(true);
+                Time.timeScale = 0f; // Pause the game
+                Cursor.lockState = CursorLockMode.None; // Unlock the cursor
+                Cursor.visible = true; // Make the cursor visible
             }
 
         }
